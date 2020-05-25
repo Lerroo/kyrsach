@@ -1,10 +1,16 @@
-# 6.		Определение полной информации о системной плате средствами Pyton
-
 import wmi
+
 def get_mother_info():
+    """Определение полной информации о системной плате"""
     list_in_txt = []
+    # Создание экземпляра класса WMI
     a = wmi.WMI()
+    # Чтение данных из класса Win32_BaseBoard который хранит информацию о материнской плате
     class_info = a.Win32_BaseBoard()[0]
+    # Чтение в список list_in_txt основной информации о материнской плате: 
+    #     Caption, HostingBoard, HotSwappable, Manufacturer, Name, PoweredOn, 
+    #     Product, Removable, Replaceable, RequiresDaughterBoard, SerialNumber, Status, 
+    #     Tag, Version
     if class_info.Caption != None:
         list_in_txt.append("Caption:{}".format(class_info.Caption))
     if class_info.HostingBoard != None:
@@ -33,8 +39,9 @@ def get_mother_info():
         list_in_txt.append("Tag:" + class_info.Tag)
     if class_info.Version != None:
         list_in_txt.append("Version:" + class_info.Version)
-    return list_in_txt
+    return {"MotherBoard":list_in_txt}
 
+# Для отладки результата
 if __name__ == "__main__":
     for x in get_mother_info():
         print(x)
